@@ -40,7 +40,6 @@ def get_params(keys):
 def index():
     if request.method == 'GET':
         info = request.get_cookie('info',secret=secret)
-        info = response.set_cookie('info','',secret=secret)
         response.set_cookie('info','',secret=secret)
         return template('tpls/index.tpl', info=info)
 
@@ -49,14 +48,18 @@ def index():
         response.set_cookie('verify_text','',secret=secret)
         if verify_text and verify_text.lower() == \
             request.forms.getunicode('verify_text').lower().strip():
+            tel = request.forms.getunicode('tel')
             keys = ('machine_name','name','fault')
             params = get_params(keys)
-            rid = models.add_recorder(params)
-            if rid:
-                redirect('/recorder/' + str(rid))
+            if models.verify(params['name'],tel):
+                rid = models.add_recorder(params)
+                if rid:
+                    redirect('/recorder/' + str(rid))
+                else:
+                    response.set_cookie('info',"提交失败！",secret=secret)
+                    redirect('/')
             else:
-                response.set_cookie('info',"提交失败！",
-                    secret=secret)
+                response.set_cookie('info',"用户不存在！",secret=secret)
                 redirect('/')
         else:
             response.set_cookie('info',"验证码错误，请重新登录！",
@@ -88,49 +91,6 @@ def mgr(page=0):
     print(pages)
     return template('tpls/mgr.tpl',res=res,info=info,pages=pages)
 
-
-    # info = request.get_cookie('info',secret=secret)
-    # info = response.set_cookie('info','',secret=secret)
-    # response.set_cookie('info','',secret=secret)
-    # navs = level.get_next_lvls('')
-    # newslist = [(nav,news.get_lvl_news(str(nav.id))[:7]) 
-    #             for nav in navs]
-    # activeimgs = tools.get_imgs('./activeimg/')
-    # if request.method == 'GET':
-        # name = request.get_cookie('name',secret=secret)
-        # id = request.get_cookie('id',secret=secret)
-        # return template('tpls/index.tpl')
-    # elif request.method == 'POST':
-
-# @app.route('/<plid:int>',method=["GET",])
-# @app.route('/<plid:int>/<page:int>',method=["GET",])
-# def pindex(plid=0,page=0):
-#     info = request.get_cookie('info',secret=secret)
-#     info = response.set_cookie('info','',secret=secret)
-#     response.set_cookie('info','',secret=secret)
-#     navs = level.get_next_lvls(plid)
-#     mnewslist,sum_pages = news.get_lvl_page_news(plid,limit=20,page=page)
-#     pages = tools.get_pages(sum_pages,page)
-#     all_navs = [level.get_lvl(plid),]
-#     newslist = [(nav,news.get_lvl_news(str(nav.id))[:7]) 
-#                 for nav in navs]
-#     if not navs:
-#         all_navs = level.get_brother_lvls(plid)
-#     else:
-#         all_navs.extend(navs)
-#     name = request.get_cookie('name',secret=secret)
-#     id = request.get_cookie('id',secret=secret)
-#     return template('tpls/more.tpl',
-#         name=name,
-#         id=id,
-#         info=info,
-#         navs=all_navs,
-#         mnewslist=mnewslist,
-#         pages=pages,
-#         newslist=newslist,
-#         plid=str(plid)
-#         )
-
-
 if __name__ == '__main__':
+    models.add_user()
     run(app, host='localhost', port=8080, debug=True)

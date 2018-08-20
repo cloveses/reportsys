@@ -12,6 +12,10 @@ class Recorder(db.Entity):
     date_time = Required(datetime.datetime,default=datetime.datetime.now())
     status = Required(bool,default=False)
 
+class User(db.Entity):
+    name = Required(str)
+    tel = Required(str)
+
 set_sql_debug(True)
 filename = os.path.join(os.path.abspath(os.curdir),'my.db')
 db.bind(provider='sqlite', filename=filename, create_db=True)
@@ -43,5 +47,18 @@ def get_pages(page):
         return pages_nums,res
     else:
         return pages_nums,[]
-        
-        
+
+@db_session
+def add_user():
+    import csv
+    if os.path.exists('data.csv') and not count(u for u in User):
+        with open('data.csv') as f:
+            rows = csv.reader(f)
+            for row in rows:
+                print(row[0],row[1])
+                User(name=row[0],tel=row[1])
+
+@db_session
+def verify(name,tel):
+    if select(u for u in User if u.name==name and u.tel==tel):
+        return True
