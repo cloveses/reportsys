@@ -1,0 +1,89 @@
+a:link,a:visited {
+    text-decoration:none;
+    color: #000;
+}
+
+a:hover {
+    color: blue;
+}
+
+p {
+    line-height:200%;
+}
+
+#mybody {
+    margin: 0 auto;
+    width: 980px;
+}
+
+.pure-menu {
+    background-color: #9fb0dc;
+}
+
+.pure-button {
+    border-radius: 4px;
+}
+
+.headimg {
+    height: 240px;
+    background: url('/static/head.jpg') no-repeat;
+}
+
+.mybox li{
+    list-style: none;
+    margin-top: 20px;
+}
+
+.mybox {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #dfdff0;
+    height: 300px;
+    background: url('/static/title.jpg') repeat no-repeat;
+    border-radius: 4px;
+}
+
+.more,
+.mydate {
+    float: right;
+}
+
+/*hr {
+    height: 1px;
+    margin: 10px 0 20px 0;
+}*/
+
+footer {
+    background-color: #dfdff0;
+    height: 100px;
+    padding-top: 40px;
+    margin-top: 20px;
+}
+
+.details {
+    border: 1px solid #dfdff0;
+    margin-top: 10px;
+}
+
+.details_text p {
+    text-indent: 2em;
+}
+.details_title {
+    text-align: center;
+}
+
+.morebox {
+    margin-top: 10px;
+}
+
+.similar-news li{
+    list-style: none;
+    margin-top: 20px;
+}
+
+.similar-news {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #dfdff0;
+    border-radius: 4px;
+}
