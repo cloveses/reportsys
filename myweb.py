@@ -52,21 +52,42 @@ def index():
             keys = ('machine_name','name','fault')
             params = get_params(keys)
             rid = models.add_recorder(params)
-            # if rid:
-            #     # return(template('tpls/'))
-            #     pass
-            # else:
-            #     response.set_cookie('info',"提交失败！",
-            #         secret=secret)
-            #     redirect('/')
+            if rid:
+                redirect('/recorder/' + str(rid))
+            else:
+                response.set_cookie('info',"提交失败！",
+                    secret=secret)
+                redirect('/')
         else:
             response.set_cookie('info',"验证码错误，请重新登录！",
                 secret=secret)
             redirect('/')
 
-@app.route('/<rid:int>',method=["GET",])
-def get_recorder(plid=0):
-    if plid:
+@app.route('/recorder/<rid:int>',method=["GET",])
+def get_recorder(rid=0):
+    info = request.get_cookie('info',secret=secret)
+    if rid:
+        r = models.get_recorder(rid)
+        if r:
+            response.set_cookie('info',"提交成功，请勿重复申请！",
+                secret=secret)
+
+            return template('tpls/rid.tpl',**r.to_dict(),info=info)
+        else:
+            response.set_cookie('info',"查询失败！",
+                secret=secret)
+            redirect('/')
+
+@app.route('/mgr',method=["GET",])
+@app.route('/mgr/<page:int>',method=["GET",])
+def mgr(page=0):
+    info = request.get_cookie('info',secret=secret)
+    if page > 0:
+        page -= 1
+    pages,res = models.get_pages(page)
+    print(pages)
+    return template('tpls/mgr.tpl',res=res,info=info,pages=pages)
+
 
     # info = request.get_cookie('info',secret=secret)
     # info = response.set_cookie('info','',secret=secret)

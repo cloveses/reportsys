@@ -9,8 +9,30 @@
     <title>故障报修系统</title>
 </head>
 <body style="background-color:#FFF;">
-    <div id='body'>
-    {{!base}}
+<div class="pure-g" style="text-align: center;color: green;">
+    <div  class="pure-u-1-1">
+        <h2>宿州环保工程学校 故障报修系统</h2>
     </div>
+</div>
+
+<div class="pure-g">
+    <div  class="pure-u-1-1" id='info'>
+        %if info:
+        info:{{info if info else ''}}
+        %end
+    </div>
+</div>
+    <div id='pure-g'>
+        <div class="pure-u-1-5"></div>
+        <div class="pure-u-3-5">
+    {{!base}}
+        </div>
+        <div class="pure-u-1-5"></div>
+    </div>
+<div class="pure-g">
+    <div class="pure-u-1-1" style="text-align: center;">
+        <footer>&copy;2018 宿州环保工程学校 故障报修系统</footer>
+    </div>
+</div>
 </body>
 </html>
