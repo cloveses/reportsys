@@ -31,7 +31,7 @@
     </div>
 <div class="pure-g">
     <div class="pure-u-1-1" style="text-align: center;">
-        <footer>&copy;2018 宿州环保工程学校 故障报修系统</footer>
+        <footer>&copy;2018 宿州环保工程学校 故障报修系统 技术支持：丁敬香</footer>
     </div>
 </div>
 </body>
